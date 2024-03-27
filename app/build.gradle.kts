@@ -5,14 +5,17 @@ plugins {
 
 android {
     namespace = "ir.codroid.shopyar"
-    compileSdk = 34
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
         applicationId = "ir.codroid.shopyar"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        with(libs.versions) {
+            minSdk = projectMinSdkVersion.get().toInt()
+            targetSdk = projectTargetSdkVersion.get().toInt()
+            versionCode = projectVersionCode.get().toInt()
+            versionName = projectVersionName.get()
+
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -40,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
     }
     packaging {
         resources {
@@ -66,4 +69,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Implementation Modules
+    implementation(project(":core"))
+    implementation(project(":core_ui"))
+
+    implementation(libs.navigation.compose)
 }
