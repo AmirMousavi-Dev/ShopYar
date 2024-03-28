@@ -78,6 +78,7 @@ dependencies {
     implementation(project(":core_ui"))
     implementation(project(":merchandise:merchandise_presentation"))
     implementation(project(":profile:profile_presentation"))
+    implementation(project(":onboarding:onboarding_presentation"))
 
     implementation(libs.navigation.compose)
 

@@ -13,4 +13,18 @@
     <string name="sbt_rate">You can rate us from here!</string>
     <string name="tit_about_us">About us</string>
     <string name="sbt_about_us">You can see our other app here!</string>
+    <string name="cpt_about_app">Welcome to Shop Yar !
+                    Efficiently manage your online shop with our program. It simplifies inventory management,
+                    creates sales invoices, and maintains lists effortlessly. Say hello to streamlined operations.</string>
+
+    <string name="cpt_shop_info">Please fill in your shop information and select an image for your shop.</string>
+
+
+
+
+
+
+
+    <string name="err_shop_name_is_blank">Shop name can\'t be blank!</string>
+    <string name="err_shop_description_is_blank">Shop description can\'t be blank!</string>
 </resources>
