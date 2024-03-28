@@ -20,35 +20,47 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
+import ir.codroid.merchandise_presentation.merchandise_list.MerchandiseListScreen
+import ir.codroid.profile_presentation.profile.ProfileScreen
 import ir.codroid.shopyar.navigation.BottomNavigationBar
 import ir.codroid.shopyar.navigation.Route
 import ir.codroid.shopyar.ui.theme.ShopYarTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             ShopYarTheme {
                 val navController = rememberNavController()
+                val backStackEntry = navController.currentBackStackEntryAsState()
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = {
-                                Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show()
-                            },
-                            containerColor = MaterialTheme.colorScheme.primary
-                        ) {
-                            Icon(imageVector = Icons.Default.Add, contentDescription = "")
-                        }
+                        if (
+                            backStackEntry.value?.destination?.route == Route.MERCHANDISE ||
+                            backStackEntry.value?.destination?.route == Route.FACTOR
+                        )
+                            FloatingActionButton(
+                                onClick = {
+                                    Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show()
+                                },
+                                containerColor = MaterialTheme.colorScheme.primary
+                            ) {
+                                Icon(imageVector = Icons.Default.Add, contentDescription = "")
+                            }
                     },
                     bottomBar = {
                         BottomNavigationBar(navController = navController)
                     }
                 ) {
-                    NavHost(navController = navController, startDestination = Route.FACTOR ) {
+                    NavHost(navController = navController, startDestination = Route.FACTOR) {
                         composable(Route.FACTOR) {
                             Text(
                                 text = "Factor",
@@ -57,17 +69,15 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Route.MERCHANDISE) {
-                            Text(
-                                text = "Merchandise",
-                                style = TextStyle(fontSize = 60.sp),
-                                color = MaterialTheme.colorScheme.primary
-                            )
+                            MerchandiseListScreen()
                         }
                         composable(Route.PROFILE) {
-                            Text(
-                                text = "Profile",
-                                style = TextStyle(fontSize = 60.sp),
-                                color = MaterialTheme.colorScheme.primary
+                            ProfileScreen(
+                                onProfileEditClick = {},
+                                onThemeClick = {},
+                                onRateClick = {},
+                                onAboutClick = {},
+                                onLanguageClick = {}
                             )
                         }
                     }

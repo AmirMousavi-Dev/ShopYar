@@ -3,4 +3,14 @@
     <string name="merchandise">Merchandise</string>
     <string name="factor">Factor</string>
     <string name="profile">Profile</string>
+    <string name="tit_language">Language</string>
+    <string name="sbt_language">You can change application language from here!</string>
+    <string name="tit_theme">Theme</string>
+    <string name="sbt_theme">You can change application theme from here!</string>
+    <string name="tit_shop_info">Shop Info</string>
+    <string name="sbt_shop_info">You can change shop info from here!</string>
+    <string name="tit_rate">Rate</string>
+    <string name="sbt_rate">You can rate us from here!</string>
+    <string name="tit_about_us">About us</string>
+    <string name="sbt_about_us">You can see our other app here!</string>
 </resources>
