@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.hilt.android)
+    kotlin("kapt")
 }
 
 android {
@@ -33,6 +35,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -53,7 +56,7 @@ android {
 }
 
 dependencies {
-
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -73,6 +76,14 @@ dependencies {
     // Implementation Modules
     implementation(project(":core"))
     implementation(project(":core_ui"))
+    implementation(project(":merchandise:merchandise_presentation"))
+    implementation(project(":profile:profile_presentation"))
 
     implementation(libs.navigation.compose)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+}
+kapt {
+    correctErrorTypes = true
 }
