@@ -12,8 +12,11 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +44,7 @@ class MainActivity : ComponentActivity() {
             ShopYarTheme {
                 val navController = rememberNavController()
                 val backStackEntry = navController.currentBackStackEntryAsState()
+                val snackBarHostState = remember { SnackbarHostState() }
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -57,6 +61,9 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 Icon(imageVector = Icons.Default.Add, contentDescription = "")
                             }
+                    },
+                    snackbarHost = {
+                        SnackbarHost(hostState = snackBarHostState)
                     },
                     bottomBar = {
                         BottomNavigationBar(navController = navController)
@@ -88,7 +95,11 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         composable(Route.SHOP_INFO) {
-                            ShopInfoScreen()
+                            ShopInfoScreen(
+                                snackBarHostState = snackBarHostState ,
+                                onNextClick = {
+                                navController.navigate(Route.FACTOR)
+                            })
                         }
                     }
                 }

@@ -17,14 +17,19 @@
                     Efficiently manage your online shop with our program. It simplifies inventory management,
                     creates sales invoices, and maintains lists effortlessly. Say hello to streamlined operations.</string>
 
-    <string name="cpt_shop_info">Please fill in your shop information and select an image for your shop.</string>
+    <string name="cpt_shop_info">Please fill in your shop information and select an image for your shop.\n
+    Your shop information is included in your invoices, and you can change your information from your profile page.</string>
 
 
 
 
+<!--    Hint Messages-->
+    <string name="hint_shop_name">Please enter your shop name.</string>
+    <string name="hint_shop_desc">Please enter your shop description.</string>
 
 
 
+<!--    Error Messages-->
     <string name="err_shop_name_is_blank">Shop name can\'t be blank!</string>
     <string name="err_shop_description_is_blank">Shop description can\'t be blank!</string>
 </resources>

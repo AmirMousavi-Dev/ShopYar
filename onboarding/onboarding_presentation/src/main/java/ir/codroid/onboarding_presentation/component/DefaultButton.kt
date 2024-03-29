@@ -1,6 +1,8 @@
 package ir.codroid.onboarding_presentation.component
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
@@ -9,11 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun DefaultButton(
     text: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
+        .height(50.dp)
+        .width(90.dp),
     enabled: Boolean = true,
     textStyle: TextStyle = MaterialTheme.typography.labelLarge,
     onclick: () -> Unit

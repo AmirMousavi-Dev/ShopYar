@@ -3,6 +3,7 @@ package ir.codroid.core_ui.component
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,12 +30,14 @@ fun CircularImage(
     modifier: Modifier = Modifier,
     imageSize: Dp = 24.dp,
     contentDescription: String? = null,
+    onClick :  ()->Unit
 ) {
     val spacing = LocalSpacing.current
     Box(
         modifier = modifier
             .clip(CircleShape)
             .background(backgroundColor)
+            .clickable { onClick() }
             .padding(spacing.spaceSmall),
         contentAlignment = Alignment.Center
     ) {
