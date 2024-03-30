@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -40,10 +41,11 @@ class DatastorePreferences @Inject constructor(
     override suspend fun saveShopImage(shopImage: Bitmap) {
         val preferencesKey = stringPreferencesKey(SHOP_IMAGE_KEY)
         context.dataStore.edit { preferences ->
-            val baos = ByteArrayOutputStream()
-            shopImage.compress(Bitmap.CompressFormat.PNG, 100, baos)
-            val b = baos.toByteArray()
-            preferences[preferencesKey] = Base64.encodeToString(b, Base64.DEFAULT)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            shopImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+            val byteArray = byteArrayOutputStream.toByteArray()
+            Log.d("saveShopImage", "saveShopImage: ${Base64.encodeToString(byteArray, Base64.DEFAULT)}")
+            preferences[preferencesKey] = Base64.encodeToString(byteArray, Base64.DEFAULT)
         }
     }
 
@@ -55,9 +57,9 @@ class DatastorePreferences @Inject constructor(
             val preferences = context.dataStore.data.first()
             val shopName = preferences[shopNamePreferencesKey]
             val shopDescription = preferences[shopDescriptionPreferencesKey]
-            val shopImage = preferences[shopImagePreferencesKey]?.toByteArray()?.let {
-                BitmapFactory.decodeByteArray(it, 0, it.size)
-            }
+            val shopImageBitmap = preferences[shopImagePreferencesKey]?.toByteArray()
+            val decodedBytes = Base64.decode(shopImageBitmap, Base64.DEFAULT)
+            val shopImage = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
 
             ShopInfo(
                 shopName = shopName,

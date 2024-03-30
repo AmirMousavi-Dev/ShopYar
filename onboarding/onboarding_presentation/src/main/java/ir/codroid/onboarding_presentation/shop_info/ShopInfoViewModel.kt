@@ -1,6 +1,5 @@
 package ir.codroid.onboarding_presentation.shop_info
 
-import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -44,7 +43,9 @@ class ShopInfoViewModel @Inject constructor(
                         viewModelScope.launch {
                             preferences.saveShopName(state.shopName)
                             preferences.saveShopDescription(state.shopDescription)
-                            state.shopImage?.let { preferences.saveShopImage(it) }
+                            state.shopImage?.let {
+                                preferences.saveShopImage(it)
+                            }
                             _uiEvent.send(UiEvent.Success)
                         }
                     }
