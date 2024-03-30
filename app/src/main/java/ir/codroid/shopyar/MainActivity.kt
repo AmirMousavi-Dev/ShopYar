@@ -12,8 +12,11 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +27,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.codroid.merchandise_presentation.merchandise_list.MerchandiseListScreen
+import ir.codroid.onboarding_presentation.shop_info.ShopInfoScreen
+import ir.codroid.onboarding_presentation.welcome.WelcomeScreen
 import ir.codroid.profile_presentation.profile.ProfileScreen
 import ir.codroid.shopyar.navigation.BottomNavigationBar
 import ir.codroid.shopyar.navigation.Route
@@ -39,6 +44,7 @@ class MainActivity : ComponentActivity() {
             ShopYarTheme {
                 val navController = rememberNavController()
                 val backStackEntry = navController.currentBackStackEntryAsState()
+                val snackBarHostState = remember { SnackbarHostState() }
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -56,11 +62,14 @@ class MainActivity : ComponentActivity() {
                                 Icon(imageVector = Icons.Default.Add, contentDescription = "")
                             }
                     },
+                    snackbarHost = {
+                        SnackbarHost(hostState = snackBarHostState)
+                    },
                     bottomBar = {
                         BottomNavigationBar(navController = navController)
                     }
                 ) {
-                    NavHost(navController = navController, startDestination = Route.FACTOR) {
+                    NavHost(navController = navController, startDestination = Route.WELCOME) {
                         composable(Route.FACTOR) {
                             Text(
                                 text = "Factor",
@@ -79,6 +88,18 @@ class MainActivity : ComponentActivity() {
                                 onAboutClick = {},
                                 onLanguageClick = {}
                             )
+                        }
+                        composable(Route.WELCOME) {
+                            WelcomeScreen(){
+                                navController.navigate(Route.SHOP_INFO)
+                            }
+                        }
+                        composable(Route.SHOP_INFO) {
+                            ShopInfoScreen(
+                                snackBarHostState = snackBarHostState ,
+                                onNextClick = {
+                                navController.navigate(Route.FACTOR)
+                            })
                         }
                     }
                 }

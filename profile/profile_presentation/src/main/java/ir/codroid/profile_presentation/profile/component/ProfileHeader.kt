@@ -56,12 +56,11 @@ fun ProfileHeader(
                 Image(
                     bitmap = shopInfo.shopImage!!.asImageBitmap(),
                     contentDescription = shopInfo.shopName,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer),
                     modifier = Modifier
                         .size(128.dp)
                         .clip(CircleShape)
                         .background(color = MaterialTheme.colorScheme.primaryContainer),
-                    contentScale = ContentScale.Fit
+                    contentScale = ContentScale.Crop
                 )
             }
             Spacer(modifier = Modifier.height(spacing.spaceSmall))

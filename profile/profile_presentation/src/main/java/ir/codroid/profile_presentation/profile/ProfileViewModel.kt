@@ -32,10 +32,8 @@ class ProfileViewModel @Inject constructor(
     private fun getUserInfo() {
         viewModelScope.launch {
             val shopInfo = preferences.loadShopInfo() ?: return@launch
-            state.shopInfo.copy(
-                shopName = shopInfo.shopName,
-                shopDescription = shopInfo.shopDescription,
-                shopImage = shopInfo.shopImage
+            state = state.copy(
+                shopInfo = shopInfo
             )
         }
     }
