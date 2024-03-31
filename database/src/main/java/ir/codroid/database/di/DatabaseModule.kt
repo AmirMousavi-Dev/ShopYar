@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ir.codroid.database.ShopYarDatabase
+import ir.codroid.database.dao.MerchandiseDao
 import javax.inject.Singleton
 
 @Module
@@ -22,5 +23,10 @@ class DatabaseModule {
             ShopYarDatabase::class.java,
             ShopYarDatabase.DATABASE_NAME
         ).build()
+
+    @Provides
+    @Singleton
+    fun provideMerchandiseDao(database: ShopYarDatabase): MerchandiseDao =
+        database.merchandiseDao
 
 }
