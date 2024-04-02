@@ -1,4 +1,4 @@
-package ir.codroid.database.entities
+package ir.codroid.entities
 
 enum class Unit(val rawValue: String) {
     KG("kilo_gram"),

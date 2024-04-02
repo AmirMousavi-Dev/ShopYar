@@ -1,25 +1,24 @@
-package ir.codroid.database.di
+package ir.codroid.di
 
-import android.content.Context
+import android.app.Application
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ir.codroid.database.ShopYarDatabase
-import ir.codroid.database.dao.MerchandiseDao
+import ir.codroid.ShopYarDatabase
+import ir.codroid.dao.MerchandiseDao
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DatabaseModule {
+object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideShopYarDatabase(@ApplicationContext context: Context): ShopYarDatabase =
+    fun provideShopYarDatabase(app:Application): ShopYarDatabase =
         Room.databaseBuilder(
-            context,
+            app,
             ShopYarDatabase::class.java,
             ShopYarDatabase.DATABASE_NAME
         ).build()

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import ir.codroid.core_ui.LocalSpacing
 import ir.codroid.core_ui.R
 import ir.codroid.core_ui.component.CircularImage
-import ir.codroid.onboarding_presentation.component.DefaultButton
+import ir.codroid.core_ui.component.DefaultButton
 
 @Composable
 fun WelcomeScreen(

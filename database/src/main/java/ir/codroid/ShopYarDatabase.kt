@@ -1,11 +1,11 @@
-package ir.codroid.database
+package ir.codroid
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import ir.codroid.database.dao.MerchandiseDao
-import ir.codroid.database.entities.MerchandiseEntity
-import ir.codroid.database.util.UnitTypeConverter
+import ir.codroid.dao.MerchandiseDao
+import ir.codroid.entities.MerchandiseEntity
+import ir.codroid.util.UnitTypeConverter
 
 
 @Database(

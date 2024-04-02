@@ -1,7 +1,7 @@
-package ir.codroid.database.util
+package ir.codroid.util
 
 import androidx.room.TypeConverter
-import ir.codroid.database.entities.Unit
+import ir.codroid.entities.Unit
 
 class UnitTypeConverter {
     @TypeConverter

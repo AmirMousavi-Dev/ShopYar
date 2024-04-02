@@ -20,6 +20,13 @@
     <string name="cpt_shop_info">Please fill in your shop information and select an image for your shop.\n
     Your shop information is included in your invoices, and you can change your information from your profile page.</string>
 
+    <string name="label_merchandise_name">Name : %s</string>
+    <string name="label_merchandise_price">Price : %s Toman</string>
+    <string name="label_merchandise_Count">Count : %s</string>
+    <string name="label_merchandise_Code">Code : %s</string>
+
+
+    <string name="confirm">Confirm</string>
 
 
 
@@ -27,9 +34,20 @@
     <string name="hint_shop_name">Please enter your shop name.</string>
     <string name="hint_shop_desc">Please enter your shop description.</string>
 
+    <string name="hint_merchandise_name">Please enter your merchandise name.</string>
+    <string name="hint_merchandise_code">Please enter your merchandise code.</string>
+    <string name="hint_merchandise_count">Please enter your merchandise count.</string>
+    <string name="hint_merchandise_sales_price">Please enter your merchandise sales price.</string>
+    <string name="hint_merchandise_purchase_price">Please enter your merchandise purchase price.</string>
 
 
 <!--    Error Messages-->
     <string name="err_shop_name_is_blank">Shop name can\'t be blank!</string>
     <string name="err_shop_description_is_blank">Shop description can\'t be blank!</string>
+
+    <string name="err_merchandise_name_is_blank">Merchandise name can\'t be blank!</string>
+    <string name="err_merchandise_purchase_price_is_blank">Merchandise purchase price can\'t be blank!</string>
+    <string name="err_merchandise_sales_price_is_blank">Merchandise sales price can\'t be blank!</string>
+    <string name="err_merchandise_count_is_blank">Merchandise count can\'t be blank!</string>
+    <string name="err_merchandise_code_is_blank">Merchandise code can\'t be blank!</string>
 </resources>

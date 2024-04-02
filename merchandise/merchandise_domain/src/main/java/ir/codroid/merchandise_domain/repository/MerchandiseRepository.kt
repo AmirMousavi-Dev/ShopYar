@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MerchandiseRepository {
 
-    suspend fun getMerchandise(
+    fun getMerchandise(
         code: String
     ): Flow<List<Merchandise>>
 

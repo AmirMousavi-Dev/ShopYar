@@ -2,7 +2,6 @@ package ir.codroid.shopyar
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import ir.codroid.merchandise_presentation.add_merchandise.AddMerchandiseScreen
 import ir.codroid.merchandise_presentation.merchandise_list.MerchandiseListScreen
 import ir.codroid.onboarding_presentation.shop_info.ShopInfoScreen
 import ir.codroid.onboarding_presentation.welcome.WelcomeScreen
@@ -55,7 +55,9 @@ class MainActivity : ComponentActivity() {
                         )
                             FloatingActionButton(
                                 onClick = {
-                                    Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show()
+                                    if (backStackEntry.value?.destination?.route == Route.MERCHANDISE) {
+                                        navController.navigate(Route.ADD_MERCHANDISE)
+                                    }
                                 },
                                 containerColor = MaterialTheme.colorScheme.primary
                             ) {
@@ -77,9 +79,32 @@ class MainActivity : ComponentActivity() {
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
+
+
+
+
+
                         composable(Route.MERCHANDISE) {
                             MerchandiseListScreen()
                         }
+
+                        composable(Route.ADD_MERCHANDISE) {
+                            AddMerchandiseScreen(
+                                navController = navController,
+                                snackbarHostState = snackBarHostState
+                            ) {
+                                navController.popBackStack()
+                            }
+                        }
+
+
+
+
+
+
+
+
+
                         composable(Route.PROFILE) {
                             ProfileScreen(
                                 onProfileEditClick = {},
@@ -90,16 +115,16 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Route.WELCOME) {
-                            WelcomeScreen(){
+                            WelcomeScreen() {
                                 navController.navigate(Route.SHOP_INFO)
                             }
                         }
                         composable(Route.SHOP_INFO) {
                             ShopInfoScreen(
-                                snackBarHostState = snackBarHostState ,
+                                snackBarHostState = snackBarHostState,
                                 onNextClick = {
-                                navController.navigate(Route.FACTOR)
-                            })
+                                    navController.navigate(Route.FACTOR)
+                                })
                         }
                     }
                 }

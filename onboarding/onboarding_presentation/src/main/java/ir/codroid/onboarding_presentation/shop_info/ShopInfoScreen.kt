@@ -36,7 +36,7 @@ import ir.codroid.core.util.UiEvent
 import ir.codroid.core_ui.LocalSpacing
 import ir.codroid.core_ui.component.ImageFromGallery
 import ir.codroid.core_ui.component.displaySnackBar
-import ir.codroid.onboarding_presentation.component.DefaultButton
+import ir.codroid.core_ui.component.DefaultButton
 
 @Composable
 fun ShopInfoScreen(

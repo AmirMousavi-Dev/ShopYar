@@ -1,6 +1,6 @@
 package ir.codroid.merchandise_data.mapper
 
-import ir.codroid.database.entities.Unit
+import ir.codroid.entities.Unit
 import ir.codroid.merchandise_domain.model.CountUnit
 
 fun Unit.toCountUnit(): CountUnit =

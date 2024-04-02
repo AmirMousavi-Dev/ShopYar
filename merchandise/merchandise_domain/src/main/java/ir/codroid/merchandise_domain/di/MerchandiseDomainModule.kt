@@ -3,38 +3,43 @@ package ir.codroid.merchandise_domain.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import ir.codroid.merchandise_domain.repository.MerchandiseRepository
 import ir.codroid.merchandise_domain.use_case.DeleteMerchandiseUseCase
 import ir.codroid.merchandise_domain.use_case.GetMerchandiseUseCase
 import ir.codroid.merchandise_domain.use_case.InsertMerchandiseUseCase
 import ir.codroid.merchandise_domain.use_case.MerchandiseUseCases
-import javax.inject.Singleton
+import ir.codroid.merchandise_domain.use_case.ValidateMerchandiseUseCase
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object MerchandiseDomainModule {
 
+
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideGetMerchandiseUseCase(
-        merchandiseRepository: MerchandiseRepository
-    ): GetMerchandiseUseCase = GetMerchandiseUseCase(merchandiseRepository)
+        repository: MerchandiseRepository
+    ): GetMerchandiseUseCase = GetMerchandiseUseCase(repository)
+
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideDeleteMerchandiseUseCase(
-        merchandiseRepository: MerchandiseRepository
-    ): DeleteMerchandiseUseCase = DeleteMerchandiseUseCase(merchandiseRepository)
+        repository: MerchandiseRepository
+    ): DeleteMerchandiseUseCase = DeleteMerchandiseUseCase(repository)
+
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideInsertMerchandiseUseCase(
-        merchandiseRepository: MerchandiseRepository
-    ): InsertMerchandiseUseCase = InsertMerchandiseUseCase(merchandiseRepository)
+        repository: MerchandiseRepository
+    ): InsertMerchandiseUseCase = InsertMerchandiseUseCase(repository)
+
 
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideMerchandiseUseCases(
         getMerchandiseUseCase: GetMerchandiseUseCase,
         deleteMerchandiseUseCase: DeleteMerchandiseUseCase,
@@ -42,6 +47,7 @@ object MerchandiseDomainModule {
     ): MerchandiseUseCases = MerchandiseUseCases(
         getMerchandiseUseCase,
         deleteMerchandiseUseCase,
-        insertMerchandiseUseCase
+        insertMerchandiseUseCase,
+        ValidateMerchandiseUseCase()
     )
 }

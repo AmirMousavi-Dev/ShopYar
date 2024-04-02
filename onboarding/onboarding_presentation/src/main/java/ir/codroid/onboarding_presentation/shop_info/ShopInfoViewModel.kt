@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.codroid.core.domain.preferences.Preferences
 import ir.codroid.core.util.UiEvent
 import ir.codroid.onboarding_domain.use_case.ValidateShopInfoUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -40,11 +41,13 @@ class ShopInfoViewModel @Inject constructor(
             ShopInfoContract.Event.OnNextClick -> {
                 when (val result = validateShopInfoUseCase(state.shopName, state.shopDescription)) {
                     is ValidateShopInfoUseCase.Result.Success -> {
-                        viewModelScope.launch {
-                            preferences.saveShopName(state.shopName)
-                            preferences.saveShopDescription(state.shopDescription)
-                            state.shopImage?.let {
-                                preferences.saveShopImage(it)
+                        viewModelScope.launch(Dispatchers.IO) {
+                            launch { preferences.saveShopName(state.shopName) }
+                            launch { preferences.saveShopDescription(state.shopDescription) }
+                            launch {
+                                state.shopImage?.let {
+                                    preferences.saveShopImage(it)
+                                }
                             }
                             _uiEvent.send(UiEvent.Success)
                         }

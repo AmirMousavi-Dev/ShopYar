@@ -1,13 +1,15 @@
 package ir.codroid.merchandise_data.mapper
 
-import ir.codroid.database.entities.MerchandiseEntity
+import ir.codroid.core.domain.usecase.BitMapToStringUseCase
+import ir.codroid.core.domain.usecase.StringToBitMapUseCase
+import ir.codroid.entities.MerchandiseEntity
 import ir.codroid.merchandise_domain.model.Merchandise
 
-fun MerchandiseEntity.toMerchandise(): Merchandise =
+fun MerchandiseEntity.toMerchandise(stringToBitMapUseCase: StringToBitMapUseCase): Merchandise =
     Merchandise(
         name = name,
         code = code,
-        image = image,
+        image = stringToBitMapUseCase(image),
         count = count,
         purchasePrice = purchasePrice,
         salesPrice = salesPrice,
@@ -16,11 +18,11 @@ fun MerchandiseEntity.toMerchandise(): Merchandise =
     )
 
 
-fun Merchandise.toMerchandiseEntity(): MerchandiseEntity =
+fun Merchandise.toMerchandiseEntity(bitMapToStringUseCase: BitMapToStringUseCase): MerchandiseEntity =
     MerchandiseEntity(
         name = name,
         code = code,
-        image = image,
+        image = bitMapToStringUseCase(image),
         count = count,
         purchasePrice = purchasePrice,
         salesPrice = salesPrice,

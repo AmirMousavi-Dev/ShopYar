@@ -13,5 +13,7 @@ android {
 
 dependencies {
     implementation(project(":core_ui"))
+    implementation(project(":core"))
+    implementation(project(":merchandise:merchandise_domain"))
 
 }
