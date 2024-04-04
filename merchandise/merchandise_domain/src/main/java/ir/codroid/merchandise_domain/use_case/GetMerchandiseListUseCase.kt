@@ -5,11 +5,11 @@ import ir.codroid.merchandise_domain.repository.MerchandiseRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetMerchandiseUseCase @Inject constructor(
+class GetMerchandiseListUseCase @Inject constructor (
     private val repository: MerchandiseRepository
 ) {
 
-    operator fun invoke(id: Int): Flow<Merchandise> {
-        return repository.getMerchandise(id)
+    operator fun invoke (code : String = "") :Flow<List<Merchandise>> {
+        return repository.getMerchandiseList(code)
     }
 }

@@ -27,21 +27,33 @@
 
 
     <string name="confirm">Confirm</string>
+    <string name="back">Back</string>
 
 
 
-<!--    Hint Messages-->
-    <string name="hint_shop_name">Please enter your shop name.</string>
-    <string name="hint_shop_desc">Please enter your shop description.</string>
-
-    <string name="hint_merchandise_name">Please enter your merchandise name.</string>
-    <string name="hint_merchandise_code">Please enter your merchandise code.</string>
-    <string name="hint_merchandise_count">Please enter your merchandise count.</string>
-    <string name="hint_merchandise_sales_price">Please enter your merchandise sales price.</string>
-    <string name="hint_merchandise_purchase_price">Please enter your merchandise purchase price.</string>
+    <!--     Title   -->
+    <string name="til_add_merchandise">Add Merchandise</string>
+    <string name="til_edit_merchandise">Edit Merchandise</string>
 
 
-<!--    Error Messages-->
+    <!--    Hint Messages-->
+    <string name="place_holder_shop_name">Please enter your shop name.</string>
+    <string name="place_holder_shop_desc">Please enter your shop description.</string>
+
+    <string name="hint_desc">Description</string>
+    <string name="hint_name">Name</string>
+    <string name="place_holder_merchandise_name">Please enter merchandise name.</string>
+    <string name="hint_merchandise_code">Code</string>
+    <string name="place_holder_merchandise_code">Please enter merchandise code.</string>
+    <string name="hint_merchandise_count">Count</string>
+    <string name="place_holder_merchandise_count">Please enter merchandise count.</string>
+    <string name="place_holder_merchandise_sales_price">Please merchandise sales price.</string>
+    <string name="hint_merchandise_sales_price">Sales price</string>
+    <string name="place_holder_merchandise_purchase_price">Please merchandise purchase price.</string>
+    <string name="hint_merchandise_purchase_price">Purchase price</string>
+
+
+    <!--    Error Messages-->
     <string name="err_shop_name_is_blank">Shop name can\'t be blank!</string>
     <string name="err_shop_description_is_blank">Shop description can\'t be blank!</string>
 

@@ -140,7 +140,12 @@ fun ShopInfoScreenContent(
             OutlinedTextField(
                 value = shopName,
                 onValueChange = { onShopNameChange(it) },
-                placeholder = { Text(text = stringResource(id = R.string.hint_shop_name)) },
+                label = {
+                    Text(text = stringResource(id = R.string.hint_name))
+                },
+                placeholder = {
+                    Text(text = stringResource(id = R.string.place_holder_shop_name))
+                              },
                 singleLine = true,
                 keyboardActions = KeyboardActions(
                     onNext = {
@@ -161,7 +166,11 @@ fun ShopInfoScreenContent(
             OutlinedTextField(
                 value = shopDescription,
                 onValueChange = { onShopDescriptionChange(it) },
-                placeholder = { Text(text = stringResource(id = R.string.hint_shop_desc)) },
+                label = {
+                    Text(text = stringResource(id = R.string.hint_desc))
+                },
+                placeholder = {
+                    Text(text = stringResource(id = R.string.place_holder_shop_desc)) },
                 keyboardActions = KeyboardActions(
                     onDone = {
                         onNextClick()

@@ -16,12 +16,18 @@ class MerchandiseRepositoryImpl @Inject constructor(
     private val bitMapToStringUseCase: BitMapToStringUseCase,
     private val stringToBitMapUseCase: StringToBitMapUseCase
 ) : MerchandiseRepository {
-    override  fun getMerchandise(code: String): Flow<List<Merchandise>> =
-        dao.getMerchandise(code)
+    override fun getMerchandiseList(code: String): Flow<List<Merchandise>> =
+        dao.getMerchandiseList(code)
             .map { entities ->
                 entities.map {
                     it.toMerchandise(stringToBitMapUseCase)
                 }
+            }
+
+    override fun getMerchandise(id: Int): Flow<Merchandise> =
+        dao.getMerchandise(id)
+            .map {
+                it.toMerchandise(stringToBitMapUseCase)
             }
 
 

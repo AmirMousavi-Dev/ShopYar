@@ -1,17 +1,19 @@
 package ir.codroid.merchandise_presentation.add_merchandise
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,16 +37,25 @@ import ir.codroid.core_ui.LocalSpacing
 import ir.codroid.core_ui.component.DefaultButton
 import ir.codroid.core_ui.component.ImageFromGallery
 import ir.codroid.core_ui.component.displaySnackBar
+import ir.codroid.merchandise_presentation.add_merchandise.component.AddMerchandiseAppbar
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@ExperimentalMaterial3Api
 @Composable
 fun AddMerchandiseScreen(
     viewModel: AddMerchandiseViewModel = hiltViewModel(),
+    merchandiseItemId: Int,
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
     onSuccess: () -> Unit
 ) {
     val state = viewModel.state
     val context = LocalContext.current
+    val spacing = LocalSpacing.current
+
+    LaunchedEffect(key1 = merchandiseItemId) {
+        viewModel.onEvent(AddMerchandiseContract.Event.OnMerchandiseItemId(merchandiseItemId))
+    }
 
     LaunchedEffect(true) {
         viewModel.uiEvent.collect { uiEvent ->
@@ -64,34 +75,50 @@ fun AddMerchandiseScreen(
             }
         }
     }
-    AddMerchandiseContent(
-        state,
-        onImageChange = {
-            viewModel.onEvent(AddMerchandiseContract.Event.OnImageChange(it))
+
+    Scaffold(
+        topBar = {
+            AddMerchandiseAppbar(
+                title = state.title.asString(context),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                navController.popBackStack()
+            }
         },
-        onNameChange = {
-            viewModel.onEvent(AddMerchandiseContract.Event.OnNameChange(it))
-        },
-        onCodeChange = {
-            viewModel.onEvent(AddMerchandiseContract.Event.OnCodeChange(it))
-        },
-        onSalesPriceChange = {
-            viewModel.onEvent(AddMerchandiseContract.Event.OnSalesPriceChange(it))
-        },
-        onPurchasePriceChange = {
-            viewModel.onEvent(AddMerchandiseContract.Event.OnPurchasePriceChange(it))
-        },
-        onCountChange = {
-            viewModel.onEvent(AddMerchandiseContract.Event.OnCountChange(it))
-        } ,
-        onConfirm = {
-            viewModel.onEvent(AddMerchandiseContract.Event.OnAddClick)
-        })
+    ) {
+        AddMerchandiseContent(
+            state,
+            modifier = Modifier.padding(top = spacing.spaceExtraLarge),
+            onImageChange = {
+                viewModel.onEvent(AddMerchandiseContract.Event.OnImageChange(it))
+            },
+            onNameChange = {
+                viewModel.onEvent(AddMerchandiseContract.Event.OnNameChange(it))
+            },
+            onCodeChange = {
+                viewModel.onEvent(AddMerchandiseContract.Event.OnCodeChange(it))
+            },
+            onSalesPriceChange = {
+                viewModel.onEvent(AddMerchandiseContract.Event.OnSalesPriceChange(it))
+            },
+            onPurchasePriceChange = {
+                viewModel.onEvent(AddMerchandiseContract.Event.OnPurchasePriceChange(it))
+            },
+            onCountChange = {
+                viewModel.onEvent(AddMerchandiseContract.Event.OnCountChange(it))
+            },
+            onConfirm = {
+                viewModel.onEvent(AddMerchandiseContract.Event.OnAddClick)
+            })
+    }
+
+
 }
 
 @Composable
 private fun AddMerchandiseContent(
     state: AddMerchandiseContract.State,
+    modifier: Modifier = Modifier,
     onImageChange: (Bitmap?) -> Unit,
     onNameChange: (String) -> Unit,
     onCodeChange: (String) -> Unit,
@@ -105,19 +132,25 @@ private fun AddMerchandiseContent(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ImageFromGallery(bitmap = state.image, shape = RoundedCornerShape(spacing.spaceSmall)) {
+        ImageFromGallery(
+            bitmap = state.merchandise.image,
+            shape = RoundedCornerShape(spacing.spaceSmall)
+        ) {
             onImageChange(it)
         }
 
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         OutlinedTextField(
-            value = state.name,
+            value = state.merchandise.name,
             onValueChange = { onNameChange(it) },
-            placeholder = { Text(text = stringResource(id = R.string.hint_merchandise_name)) },
+            label = {
+                Text(text = stringResource(id = R.string.hint_name))
+            },
+            placeholder = { Text(text = stringResource(id = R.string.place_holder_merchandise_name)) },
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onNext = {
@@ -136,9 +169,12 @@ private fun AddMerchandiseContent(
 
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         OutlinedTextField(
-            value = state.code,
+            value = state.merchandise.code,
             onValueChange = { onCodeChange(it) },
-            placeholder = { Text(text = stringResource(id = R.string.hint_merchandise_code)) },
+            label = {
+                Text(text = stringResource(id = R.string.hint_merchandise_code))
+            },
+            placeholder = { Text(text = stringResource(id = R.string.place_holder_merchandise_code)) },
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onNext = {
@@ -156,11 +192,16 @@ private fun AddMerchandiseContent(
 
         )
 
+
+        // Count Text Field
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         OutlinedTextField(
-            value = state.count?.toString() ?: "",
+            value = if (state.merchandise.count < 0) "" else state.merchandise.count.toString(),
             onValueChange = { onCountChange(it) },
-            placeholder = { Text(text = stringResource(id = R.string.hint_merchandise_count)) },
+            label = {
+                Text(text = stringResource(id = R.string.hint_merchandise_count))
+            },
+            placeholder = { Text(text = stringResource(id = R.string.place_holder_merchandise_count)) },
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onNext = {
@@ -177,11 +218,15 @@ private fun AddMerchandiseContent(
                 .focusRequester(focusRequester)
         )
 
+        // Purchase Price Text Field
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         OutlinedTextField(
-            value = state.purchasePrice?.toString() ?: "",
+            value = if (state.merchandise.purchasePrice < 0) "" else state.merchandise.purchasePrice.toString(),
             onValueChange = { onPurchasePriceChange(it) },
-            placeholder = { Text(text = stringResource(id = R.string.hint_merchandise_purchase_price)) },
+            label = {
+                Text(text = stringResource(id = R.string.hint_merchandise_purchase_price))
+            },
+            placeholder = { Text(text = stringResource(id = R.string.place_holder_merchandise_purchase_price)) },
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onNext = {
@@ -198,11 +243,15 @@ private fun AddMerchandiseContent(
                 .focusRequester(focusRequester)
         )
 
+        // Sales Price Text Field
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         OutlinedTextField(
-            value = state.salesPrice?.toString() ?: "",
+            value = if (state.merchandise.salesPrice < 0) "" else state.merchandise.salesPrice.toString(),
             onValueChange = { onSalesPriceChange(it) },
-            placeholder = { Text(text = stringResource(id = R.string.hint_merchandise_sales_price)) },
+            label = {
+                Text(text = stringResource(id = R.string.hint_merchandise_sales_price))
+            },
+            placeholder = { Text(text = stringResource(id = R.string.place_holder_merchandise_sales_price)) },
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -218,6 +267,9 @@ private fun AddMerchandiseContent(
                 .padding(horizontal = spacing.spaceMedium)
                 .focusRequester(focusRequester)
         )
+
+
+        Spacer(modifier = Modifier.height(spacing.spaceLarge))
 
         DefaultButton(
             text = stringResource(id = R.string.confirm),
@@ -242,5 +294,5 @@ private fun AddMerchandiseScreenPreview() {
         onCodeChange = {},
         onSalesPriceChange = {},
         onPurchasePriceChange = {},
-        onCountChange = {}){}
+        onCountChange = {}) {}
 }

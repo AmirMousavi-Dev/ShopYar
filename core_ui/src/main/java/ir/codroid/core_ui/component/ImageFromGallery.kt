@@ -57,7 +57,7 @@ fun ImageFromGallery(
             }
         }
 
-    if (imageBitmap == null) {
+    if (bitmap == null) {
         Image(
             imageVector = Icons.Outlined.Add,
             contentDescription = null,
@@ -72,7 +72,7 @@ fun ImageFromGallery(
         )
     } else {
         Image(
-            bitmap = imageBitmap!!,
+            bitmap = imageBitmap ?: bitmap.asImageBitmap(),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

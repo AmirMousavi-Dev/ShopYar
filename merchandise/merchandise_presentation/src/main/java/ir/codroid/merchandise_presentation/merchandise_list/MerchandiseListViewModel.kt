@@ -48,7 +48,7 @@ class MerchandiseListViewModel @Inject constructor(
     }
 
     private fun getMerchandise() {
-        merchandiseUseCases.getMerchandiseUseCase.invoke()
+        merchandiseUseCases.getMerchandiseListUseCase.invoke()
             .onEach { merchandiseList ->
                 state = state.copy(
                     merchandiseList = merchandiseList

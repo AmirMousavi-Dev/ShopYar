@@ -15,22 +15,33 @@ import ir.codroid.merchandise_presentation.merchandise_list.component.Merchandis
 
 @Composable
 fun MerchandiseListScreen(
-    viewModel: MerchandiseListViewModel = hiltViewModel()
+    viewModel: MerchandiseListViewModel = hiltViewModel(),
+    onItemClick: (Int) -> Unit
 ) {
     val state = viewModel.state
-    MerchandiseListContent(state.merchandiseList)
+    MerchandiseListContent(state.merchandiseList) { merchandiseItemId ->
+        onItemClick(merchandiseItemId)
+    }
 }
 
 @Composable
 private fun MerchandiseListContent(
-    merchandiseList: List<Merchandise>
+    merchandiseList: List<Merchandise>,
+    onItemClick: (Int) -> Unit
 ) {
     val spacing = LocalSpacing.current
     LazyColumn {
         items(merchandiseList, key = {
             it.id!!
         }) { merchandise ->
-            MerchandiseItem(merchandise = merchandise, modifier = Modifier.fillMaxWidth().padding(spacing.spaceSmall))
+            MerchandiseItem(
+                merchandise = merchandise,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(spacing.spaceSmall)
+            ) { merchandiseItemId ->
+                onItemClick(merchandiseItemId)
+            }
         }
     }
 }
@@ -50,5 +61,5 @@ private fun MerchandiseListScreenPreview() {
                 3, "Mobile", 100, 500, "164sd", CountUnit.NUMBER, null, 1500.0
             )
         )
-    )
+    ) {}
 }

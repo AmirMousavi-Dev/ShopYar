@@ -26,5 +26,15 @@ interface MerchandiseDao {
         LIKE :code ||'%'
     """
     )
-    fun getMerchandise(code: String): Flow<List<MerchandiseEntity>>
+    fun getMerchandiseList(code: String): Flow<List<MerchandiseEntity>>
+
+
+    @Query(
+        """
+        SELECT *
+        FROM merchandiseentity
+        WHERE id == :id
+    """
+    )
+    fun getMerchandise(id: Int): Flow<MerchandiseEntity>
 }

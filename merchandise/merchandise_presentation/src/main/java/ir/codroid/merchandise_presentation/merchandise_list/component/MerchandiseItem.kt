@@ -23,12 +23,16 @@ import ir.codroid.merchandise_domain.model.Merchandise
 @Composable
 fun MerchandiseItem(
     merchandise: Merchandise,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onItemClick: (Int) -> Unit
 ) {
     val spacing = LocalSpacing.current
 
     Card(
-        modifier = modifier
+        modifier = modifier,
+        onClick = {
+            onItemClick(merchandise.id ?: -1)
+        }
     ) {
         Row(
             modifier = Modifier
@@ -46,8 +50,9 @@ fun MerchandiseItem(
                     .padding(spacing.spaceSmall)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth() ,
-                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     MerchandiseDefaultText(
                         label = R.string.label_merchandise_name,
                         value = merchandise.name,
@@ -60,8 +65,9 @@ fun MerchandiseItem(
                 }
                 Spacer(modifier = Modifier.height(spacing.spaceLarge))
                 Row(
-                    modifier = Modifier.fillMaxWidth() ,
-                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     MerchandiseDefaultText(
                         label = R.string.label_merchandise_price,
                         value = merchandise.salesPrice.toString(),
@@ -85,5 +91,5 @@ private fun MerchandiseItemPreview() {
             1, "Mobile", 100, 500, "164sd", CountUnit.NUMBER, null, 1500.0
         ),
         modifier = Modifier.fillMaxWidth()
-    )
+    ) {}
 }
