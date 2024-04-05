@@ -1,7 +1,5 @@
 package ir.codroid.merchandise_data.repository
 
-import ir.codroid.core.domain.usecase.BitMapToStringUseCase
-import ir.codroid.core.domain.usecase.StringToBitMapUseCase
 import ir.codroid.dao.MerchandiseDao
 import ir.codroid.merchandise_data.mapper.toMerchandise
 import ir.codroid.merchandise_data.mapper.toMerchandiseEntity
@@ -13,29 +11,27 @@ import javax.inject.Inject
 
 class MerchandiseRepositoryImpl @Inject constructor(
     private val dao: MerchandiseDao,
-    private val bitMapToStringUseCase: BitMapToStringUseCase,
-    private val stringToBitMapUseCase: StringToBitMapUseCase
 ) : MerchandiseRepository {
     override fun getMerchandiseList(code: String): Flow<List<Merchandise>> =
         dao.getMerchandiseList(code)
             .map { entities ->
                 entities.map {
-                    it.toMerchandise(stringToBitMapUseCase)
+                    it.toMerchandise()
                 }
             }
 
     override fun getMerchandise(id: Int): Flow<Merchandise> =
         dao.getMerchandise(id)
             .map {
-                it.toMerchandise(stringToBitMapUseCase)
+                it.toMerchandise()
             }
 
 
     override suspend fun insertMerchandise(merchandise: Merchandise) {
-        dao.insertMerchandise(merchandise.toMerchandiseEntity(bitMapToStringUseCase))
+        dao.insertMerchandise(merchandise.toMerchandiseEntity())
     }
 
     override suspend fun deleteMerchandise(merchandise: Merchandise) {
-        dao.deleteMerchandise(merchandise.toMerchandiseEntity(bitMapToStringUseCase))
+        dao.deleteMerchandise(merchandise.toMerchandiseEntity())
     }
 }

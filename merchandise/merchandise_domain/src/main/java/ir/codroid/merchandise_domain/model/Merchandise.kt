@@ -1,7 +1,5 @@
 package ir.codroid.merchandise_domain.model
 
-import android.graphics.Bitmap
-
 data class Merchandise(
     val id: Int? = null,
     val name: String,
@@ -9,6 +7,6 @@ data class Merchandise(
     val salesPrice: Int,
     val code: String,
     val countUnit: CountUnit,
-    val image: Bitmap?,
+    val image: String?,
     val count: Double,
     )

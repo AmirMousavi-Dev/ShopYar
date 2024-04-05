@@ -1,7 +1,6 @@
 package ir.codroid.merchandise_presentation.add_merchandise
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -119,7 +118,7 @@ fun AddMerchandiseScreen(
 private fun AddMerchandiseContent(
     state: AddMerchandiseContract.State,
     modifier: Modifier = Modifier,
-    onImageChange: (Bitmap?) -> Unit,
+    onImageChange: (String?) -> Unit,
     onNameChange: (String) -> Unit,
     onCodeChange: (String) -> Unit,
     onCountChange: (String) -> Unit,
@@ -137,7 +136,7 @@ private fun AddMerchandiseContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ImageFromGallery(
-            bitmap = state.merchandise.image,
+            imagePath = state.merchandise.image,
             shape = RoundedCornerShape(spacing.spaceSmall)
         ) {
             onImageChange(it)

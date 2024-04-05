@@ -1,6 +1,5 @@
 package ir.codroid.onboarding_presentation.shop_info
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,9 +33,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ir.codroid.core.R
 import ir.codroid.core.util.UiEvent
 import ir.codroid.core_ui.LocalSpacing
+import ir.codroid.core_ui.component.DefaultButton
 import ir.codroid.core_ui.component.ImageFromGallery
 import ir.codroid.core_ui.component.displaySnackBar
-import ir.codroid.core_ui.component.DefaultButton
 
 @Composable
 fun ShopInfoScreen(
@@ -70,7 +69,7 @@ fun ShopInfoScreen(
     ShopInfoScreenContent(
         shopName = viewModel.state.shopName,
         shopDescription = viewModel.state.shopDescription,
-        imageBitmap = viewModel.state.shopImage,
+        imagePatch = viewModel.state.shopImagePath,
         onShopNameChange = {
             viewModel.onEvent(ShopInfoContract.Event.OnShopNameChange(it))
         },
@@ -94,10 +93,10 @@ fun ShopInfoScreen(
 fun ShopInfoScreenContent(
     shopName: String,
     shopDescription: String,
-    imageBitmap: Bitmap?,
+    imagePatch: String?,
     onShopNameChange: (String) -> Unit,
     onShopDescriptionChange: (String) -> Unit,
-    onShopImageChange: (Bitmap?) -> Unit,
+    onShopImageChange: (String?) -> Unit,
     onNextClick: () -> Unit,
 ) {
     val spacing = LocalSpacing.current
@@ -115,7 +114,7 @@ fun ShopInfoScreenContent(
         ) {
 
 
-            ImageFromGallery(size = 256.dp, bitmap = imageBitmap) {
+            ImageFromGallery(size = 256.dp, imagePath = imagePatch) {
                 onShopImageChange(it)
             }
             Spacer(modifier = Modifier.height(spacing.spaceLarge))
@@ -145,7 +144,7 @@ fun ShopInfoScreenContent(
                 },
                 placeholder = {
                     Text(text = stringResource(id = R.string.place_holder_shop_name))
-                              },
+                },
                 singleLine = true,
                 keyboardActions = KeyboardActions(
                     onNext = {
@@ -170,7 +169,8 @@ fun ShopInfoScreenContent(
                     Text(text = stringResource(id = R.string.hint_desc))
                 },
                 placeholder = {
-                    Text(text = stringResource(id = R.string.place_holder_shop_desc)) },
+                    Text(text = stringResource(id = R.string.place_holder_shop_desc))
+                },
                 keyboardActions = KeyboardActions(
                     onDone = {
                         onNextClick()
@@ -205,6 +205,6 @@ private fun WelcomeScreenPreview() {
         onShopNameChange = {},
         shopName = "",
         shopDescription = "",
-        imageBitmap = null
+        imagePatch = null
     ) {}
 }

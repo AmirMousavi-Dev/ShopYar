@@ -1,15 +1,12 @@
 package ir.codroid.core.data.preferences
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import ir.codroid.core.domain.model.ShopInfo
 import ir.codroid.core.domain.preferences.Preferences
-import ir.codroid.core.domain.usecase.BitMapToStringUseCase
-import ir.codroid.core.domain.usecase.StringToBitMapUseCase
 import ir.codroid.core.util.Constants.DATASTORE_NAME
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -21,8 +18,6 @@ private val Context.dataStore: DataStore<androidx.datastore.preferences.core.Pre
 
 class DatastorePreferences @Inject constructor(
     private val context: Context,
-    private val stringToBitMapUseCase: StringToBitMapUseCase,
-    private val bitMapToStringUseCase: BitMapToStringUseCase,
 ) : Preferences {
     override suspend fun saveShopName(shopName: String) {
         val preferencesKey = stringPreferencesKey(SHOP_NAME_KEY)
@@ -38,10 +33,11 @@ class DatastorePreferences @Inject constructor(
         }
     }
 
-    override suspend fun saveShopImage(shopImage: Bitmap) {
+    override suspend fun saveShopImage(shopImage: String) {
         val preferencesKey = stringPreferencesKey(SHOP_IMAGE_KEY)
         context.dataStore.edit { preferences ->
-            preferences[preferencesKey] = bitMapToStringUseCase(bitmap = shopImage) ?: return@edit
+            preferences[preferencesKey] = shopImage
+//                bitMapToStringUseCase(bitmap = shopImage) ?: return@edit
         }
     }
 
@@ -53,7 +49,8 @@ class DatastorePreferences @Inject constructor(
             val preferences = context.dataStore.data.first()
             val shopName = preferences[shopNamePreferencesKey]
             val shopDescription = preferences[shopDescriptionPreferencesKey]
-            val shopImage = stringToBitMapUseCase(preferences[shopImagePreferencesKey])
+            val shopImage = preferences[shopImagePreferencesKey]
+//                stringToBitMapUseCase(preferences[shopImagePreferencesKey])
 
             ShopInfo(
                 shopName = shopName,

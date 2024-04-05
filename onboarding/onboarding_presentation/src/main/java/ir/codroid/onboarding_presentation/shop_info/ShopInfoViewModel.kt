@@ -30,7 +30,7 @@ class ShopInfoViewModel @Inject constructor(
     fun onEvent(event: ShopInfoContract.Event) {
         when (event) {
             is ShopInfoContract.Event.OnImageChange -> state =
-                state.copy(shopImage = event.shopImage)
+                state.copy(shopImagePath = event.shopImage)
 
             is ShopInfoContract.Event.OnShopDescriptionChange -> state =
                 state.copy(shopDescription = event.shopDescription.take(128))
@@ -45,7 +45,7 @@ class ShopInfoViewModel @Inject constructor(
                             launch { preferences.saveShopName(state.shopName) }
                             launch { preferences.saveShopDescription(state.shopDescription) }
                             launch {
-                                state.shopImage?.let {
+                                state.shopImagePath?.let {
                                     preferences.saveShopImage(it)
                                 }
                             }

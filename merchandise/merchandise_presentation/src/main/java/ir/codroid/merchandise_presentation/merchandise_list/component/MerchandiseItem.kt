@@ -40,7 +40,7 @@ fun MerchandiseItem(
                 .padding(spacing.spaceSmall)
         ) {
             MerchandiseDefaultImage(
-                bitmap = merchandise.image, modifier =
+                imagePath = merchandise.image, modifier =
                 Modifier.size(100.dp)
             )
 

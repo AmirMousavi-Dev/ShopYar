@@ -1,10 +1,9 @@
 package ir.codroid.merchandise_presentation.add_merchandise
 
-import android.graphics.Bitmap
+import ir.codroid.core.R
 import ir.codroid.core.util.UiText
 import ir.codroid.merchandise_domain.model.CountUnit
 import ir.codroid.merchandise_domain.model.Merchandise
-import ir.codroid.core.R
 
 interface AddMerchandiseContract {
 
@@ -18,7 +17,7 @@ interface AddMerchandiseContract {
             image = null,
             count = -1.0,
         ),
-        val title : UiText.StringResource = UiText.StringResource(R.string.til_add_merchandise)
+        val title: UiText.StringResource = UiText.StringResource(R.string.til_add_merchandise)
     )
 
     sealed class Event {
@@ -29,7 +28,7 @@ interface AddMerchandiseContract {
         data class OnSalesPriceChange(val salesPrice: String) : Event()
         data class OnCodeChange(val code: String) : Event()
         data class OnCountUnitChange(val countUnit: CountUnit) : Event()
-        data class OnImageChange(val image: Bitmap?) : Event()
+        data class OnImageChange(val image: String?) : Event()
         data class OnCountChange(val count: String) : Event()
         data object OnAddClick : Event()
     }
