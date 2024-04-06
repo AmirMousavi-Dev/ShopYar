@@ -1,5 +1,6 @@
 package ir.codroid.merchandise_presentation.add_merchandise
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.codroid.core.R
+import ir.codroid.core.domain.usecase.SavePhotoToStorageUseCase
 import ir.codroid.core.util.UiEvent
 import ir.codroid.core.util.UiText
 import ir.codroid.merchandise_domain.use_case.MerchandiseUseCases
@@ -20,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddMerchandiseViewModel @Inject constructor(
-    private val merchandiseUseCases: MerchandiseUseCases
+    private val merchandiseUseCases: MerchandiseUseCases,
+    private val savePhotoToStorageUseCase: SavePhotoToStorageUseCase
 ) : ViewModel() {
 
     private val _uiEvent = Channel<UiEvent>()
@@ -75,6 +78,14 @@ class AddMerchandiseViewModel @Inject constructor(
                     }
 
                     is ValidateMerchandiseUseCase.Result.Success -> {
+                        state.merchandise.image?.let {
+
+                            val uri = savePhotoToStorageUseCase.invoke(
+                                state.merchandise.name + state.merchandise.code,
+                                Uri.parse(it)
+                            )
+                            state.copy(merchandise = state.merchandise.copy(image = uri.toString()))
+                        }
                         viewModelScope.launch {
                             merchandiseUseCases.insertMerchandiseUseCase(state.merchandise)
                                 .onSuccess {

@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import ir.codroid.core.data.preferences.DatastorePreferences
 import ir.codroid.core.domain.preferences.Preferences
 import ir.codroid.core.domain.usecase.BitMapToStringUseCase
+import ir.codroid.core.domain.usecase.SavePhotoToStorageUseCase
 import ir.codroid.core.domain.usecase.StringToBitMapUseCase
 import javax.inject.Singleton
 
@@ -20,10 +21,8 @@ class CoreModule {
     @Singleton
     fun providePreferences(
         @ApplicationContext context: Context,
-        bitMapToStringUseCase: BitMapToStringUseCase,
-        stringToBitMapUseCase: StringToBitMapUseCase
     ): Preferences =
-        DatastorePreferences(context, stringToBitMapUseCase, bitMapToStringUseCase)
+        DatastorePreferences(context)
 
     @Provides
     @Singleton
@@ -34,4 +33,11 @@ class CoreModule {
     @Singleton
     fun provideStringToBitMap(): StringToBitMapUseCase =
         StringToBitMapUseCase()
+
+    @Provides
+    @Singleton
+    fun provideSavePhotoToStorageUseCase(
+        @ApplicationContext context: Context
+    ): SavePhotoToStorageUseCase =
+        SavePhotoToStorageUseCase(context)
 }

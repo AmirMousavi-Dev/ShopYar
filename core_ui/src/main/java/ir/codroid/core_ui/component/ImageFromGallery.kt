@@ -52,7 +52,7 @@ fun ImageFromGallery(
             }
         }
 
-    if (imageUri == null) {
+    if (imagePath.isNullOrEmpty()) {
         Image(
             imageVector = Icons.Outlined.Add,
             contentDescription = null,
@@ -73,7 +73,7 @@ fun ImageFromGallery(
     } else {
         Image(
             painter = rememberAsyncImagePainter(
-                model = imageUri
+                model = imageUri ?: Uri.parse(imagePath)
             ),
             contentDescription = null,
             contentScale = ContentScale.Crop,
