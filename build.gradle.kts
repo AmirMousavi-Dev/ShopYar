@@ -16,6 +16,6 @@ plugins {
     alias(libs.plugins.room) apply false
 }
 
-tasks.register("clean", Delete::class){
+tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

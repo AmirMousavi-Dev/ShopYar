@@ -52,6 +52,7 @@ fun AddMerchandiseScreen(
     val context = LocalContext.current
     val spacing = LocalSpacing.current
 
+
     LaunchedEffect(key1 = merchandiseItemId) {
         viewModel.onEvent(AddMerchandiseContract.Event.OnMerchandiseItemId(merchandiseItemId))
     }
@@ -283,7 +284,7 @@ private fun AddMerchandiseContent(
 
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun AddMerchandiseScreenPreview() {
     AddMerchandiseContent(

@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 interface MerchandiseRepository {
 
     fun getMerchandiseList(
-        code: String
+        name: String
     ): Flow<List<Merchandise>>
 
     fun getMerchandise(
-        id :Int
+        id: Int
     ): Flow<Merchandise>
 
     suspend fun insertMerchandise(merchandise: Merchandise)

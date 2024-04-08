@@ -6,15 +6,19 @@ interface MerchandiseContract {
 
 
     data class State(
-        val merchandiseList: List<Merchandise> = emptyList()
-    )
+        val merchandiseList: List<Merchandise> = emptyList(),
+        val searchedMerchandiseList: List<Merchandise> = emptyList(),
+        val searchQuery: String = "",
+        val isSearching: Boolean = false,
+
+        )
 
 
     sealed class Event {
         data object GetMerchandise : Event()
 
-        data object OnAddClick : Event()
+        data class OnSearchQueryChange(val searchQuery: String) : Event()
 
-        data class OnMerchandiseClick(val id: Int) : Event()
+        data class OnActiveSearching(val isSearching: Boolean) : Event()
     }
 }

@@ -23,10 +23,10 @@ interface MerchandiseDao {
         SELECT *
         FROM merchandiseentity
         WHERE code 
-        LIKE :code ||'%'
+        LIKE :name ||'%'
     """
     )
-    fun getMerchandiseList(code: String): Flow<List<MerchandiseEntity>>
+    fun getMerchandiseList(name: String): Flow<List<MerchandiseEntity>>
 
 
     @Query(

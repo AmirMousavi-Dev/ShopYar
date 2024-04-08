@@ -12,8 +12,8 @@ import javax.inject.Inject
 class MerchandiseRepositoryImpl @Inject constructor(
     private val dao: MerchandiseDao,
 ) : MerchandiseRepository {
-    override fun getMerchandiseList(code: String): Flow<List<Merchandise>> =
-        dao.getMerchandiseList(code)
+    override fun getMerchandiseList(name: String): Flow<List<Merchandise>> =
+        dao.getMerchandiseList(name)
             .map { entities ->
                 entities.map {
                     it.toMerchandise()
