@@ -76,11 +76,17 @@ dependencies {
     // Implementation Modules
     implementation(project(":core"))
     implementation(project(":core_ui"))
+    implementation(project(":merchandise:merchandise_data"))
+    implementation(project(":merchandise:merchandise_domain"))
     implementation(project(":merchandise:merchandise_presentation"))
     implementation(project(":profile:profile_presentation"))
     implementation(project(":onboarding:onboarding_presentation"))
+    implementation(project(":database"))
 
     implementation(libs.navigation.compose)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

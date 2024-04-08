@@ -1,5 +1,7 @@
 package ir.codroid.onboarding_presentation.shop_info
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,8 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.codroid.core.domain.preferences.Preferences
+import ir.codroid.core.domain.usecase.SavePhotoToStorageUseCase
 import ir.codroid.core.util.UiEvent
 import ir.codroid.onboarding_domain.use_case.ValidateShopInfoUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -17,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ShopInfoViewModel @Inject constructor(
     private val preferences: Preferences,
-    private val validateShopInfoUseCase: ValidateShopInfoUseCase
+    private val validateShopInfoUseCase: ValidateShopInfoUseCase,
+    private val savePhotoToStorageUseCase: SavePhotoToStorageUseCase
 ) : ViewModel() {
 
     private val _uiEvent = Channel<UiEvent>()
@@ -29,7 +34,7 @@ class ShopInfoViewModel @Inject constructor(
     fun onEvent(event: ShopInfoContract.Event) {
         when (event) {
             is ShopInfoContract.Event.OnImageChange -> state =
-                state.copy(shopImage = event.shopImage)
+                state.copy(shopImagePath = event.shopImage)
 
             is ShopInfoContract.Event.OnShopDescriptionChange -> state =
                 state.copy(shopDescription = event.shopDescription.take(128))
@@ -40,11 +45,22 @@ class ShopInfoViewModel @Inject constructor(
             ShopInfoContract.Event.OnNextClick -> {
                 when (val result = validateShopInfoUseCase(state.shopName, state.shopDescription)) {
                     is ValidateShopInfoUseCase.Result.Success -> {
-                        viewModelScope.launch {
-                            preferences.saveShopName(state.shopName)
-                            preferences.saveShopDescription(state.shopDescription)
-                            state.shopImage?.let {
-                                preferences.saveShopImage(it)
+                        viewModelScope.launch(Dispatchers.IO) {
+                            launch { preferences.saveShopName(state.shopName) }
+                            launch { preferences.saveShopDescription(state.shopDescription) }
+                            launch {
+
+                                state.shopImagePath?.let {
+                                    val uri = savePhotoToStorageUseCase.invoke(
+                                        IMAGE_NAME,
+                                        Uri.parse(it)
+                                    )
+                                    Log.e("viewmodel", "onEvent: $it" , )
+                                    Log.e("viewmodel", "onEvent: ${uri.toString()}", )
+                                    preferences.saveShopImage(
+                                        uri.toString()
+                                    )
+                                }
                             }
                             _uiEvent.send(UiEvent.Success)
                         }
@@ -58,6 +74,11 @@ class ShopInfoViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+
+    companion object {
+        const val IMAGE_NAME = "Profile_Image"
     }
 
 

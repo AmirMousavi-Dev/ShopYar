@@ -20,16 +20,48 @@
     <string name="cpt_shop_info">Please fill in your shop information and select an image for your shop.\n
     Your shop information is included in your invoices, and you can change your information from your profile page.</string>
 
+    <string name="label_merchandise_name">Name : %s</string>
+    <string name="label_merchandise_price">Price : %s Toman</string>
+    <string name="label_merchandise_Count">Count : %s</string>
+    <string name="label_merchandise_Code">Code : %s</string>
+
+
+    <string name="confirm">Confirm</string>
+    <string name="back">Back</string>
+    <string name="search">Search</string>
+    <string name="search_merchandise">Search merchandise</string>
 
 
 
-<!--    Hint Messages-->
-    <string name="hint_shop_name">Please enter your shop name.</string>
-    <string name="hint_shop_desc">Please enter your shop description.</string>
+    <!--     Title   -->
+    <string name="til_add_merchandise">Add Merchandise</string>
+    <string name="til_edit_merchandise">Edit Merchandise</string>
 
 
+    <!--    Hint Messages-->
+    <string name="place_holder_shop_name">Please enter your shop name.</string>
+    <string name="place_holder_shop_desc">Please enter your shop description.</string>
 
-<!--    Error Messages-->
+    <string name="hint_desc">Description</string>
+    <string name="hint_name">Name</string>
+    <string name="place_holder_merchandise_name">Please enter merchandise name.</string>
+    <string name="hint_merchandise_code">Code</string>
+    <string name="place_holder_merchandise_code">Please enter merchandise code.</string>
+    <string name="hint_merchandise_count">Count</string>
+    <string name="place_holder_merchandise_count">Please enter merchandise count.</string>
+    <string name="place_holder_merchandise_sales_price">Please merchandise sales price.</string>
+    <string name="hint_merchandise_sales_price">Sales price</string>
+    <string name="place_holder_merchandise_purchase_price">Please merchandise purchase price.</string>
+    <string name="hint_merchandise_purchase_price">Purchase price</string>
+
+
+    <!--    Error Messages-->
     <string name="err_shop_name_is_blank">Shop name can\'t be blank!</string>
     <string name="err_shop_description_is_blank">Shop description can\'t be blank!</string>
+
+    <string name="err_merchandise_name_is_blank">Merchandise name can\'t be blank!</string>
+    <string name="err_merchandise_purchase_price_is_blank">Merchandise purchase price can\'t be blank!</string>
+    <string name="err_merchandise_sales_price_is_blank">Merchandise sales price can\'t be blank!</string>
+    <string name="err_merchandise_count_is_blank">Merchandise count can\'t be blank!</string>
+    <string name="err_merchandise_code_is_blank">Merchandise code can\'t be blank!</string>
 </resources>

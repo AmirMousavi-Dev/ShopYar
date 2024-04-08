@@ -2,12 +2,12 @@ package ir.codroid.shopyar
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,11 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import ir.codroid.merchandise_presentation.add_merchandise.AddMerchandiseScreen
 import ir.codroid.merchandise_presentation.merchandise_list.MerchandiseListScreen
 import ir.codroid.onboarding_presentation.shop_info.ShopInfoScreen
 import ir.codroid.onboarding_presentation.welcome.WelcomeScreen
@@ -36,6 +39,7 @@ import ir.codroid.shopyar.ui.theme.ShopYarTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @ExperimentalMaterial3Api
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +59,9 @@ class MainActivity : ComponentActivity() {
                         )
                             FloatingActionButton(
                                 onClick = {
-                                    Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show()
+                                    if (backStackEntry.value?.destination?.route == Route.MERCHANDISE) {
+                                        navController.navigate(Route.ADD_MERCHANDISE + "/-1")
+                                    }
                                 },
                                 containerColor = MaterialTheme.colorScheme.primary
                             ) {
@@ -77,9 +83,47 @@ class MainActivity : ComponentActivity() {
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
+
+
+
+
+
                         composable(Route.MERCHANDISE) {
-                            MerchandiseListScreen()
+                            MerchandiseListScreen { merchandiseItemId ->
+                                navController.navigate(
+                                    Route.ADD_MERCHANDISE +
+                                            "/$merchandiseItemId"
+
+                                )
+                            }
                         }
+
+                        composable(
+                            route = Route.ADD_MERCHANDISE + "/{merchandiseItemId}",
+                            arguments = listOf(
+                                navArgument(name = "merchandiseItemId") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
+                            val merchandiseItemId = it.arguments?.getInt("merchandiseItemId") ?: -1
+                            AddMerchandiseScreen(
+                                navController = navController,
+                                merchandiseItemId = merchandiseItemId,
+                                snackbarHostState = snackBarHostState
+                            ) {
+                                navController.popBackStack()
+                            }
+                        }
+
+
+
+
+
+
+
+
+
                         composable(Route.PROFILE) {
                             ProfileScreen(
                                 onProfileEditClick = {},
@@ -90,16 +134,16 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Route.WELCOME) {
-                            WelcomeScreen(){
+                            WelcomeScreen() {
                                 navController.navigate(Route.SHOP_INFO)
                             }
                         }
                         composable(Route.SHOP_INFO) {
                             ShopInfoScreen(
-                                snackBarHostState = snackBarHostState ,
+                                snackBarHostState = snackBarHostState,
                                 onNextClick = {
-                                navController.navigate(Route.FACTOR)
-                            })
+                                    navController.navigate(Route.FACTOR)
+                                })
                         }
                     }
                 }

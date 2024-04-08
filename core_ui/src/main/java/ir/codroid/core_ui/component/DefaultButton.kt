@@ -1,4 +1,4 @@
-package ir.codroid.onboarding_presentation.component
+package ir.codroid.core_ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
